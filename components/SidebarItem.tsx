@@ -33,7 +33,7 @@ const SidebarItem: React.FC<SidebarItemProps> = ({
         text-neutral-400
         py-1
         `,
-        active && "text-white"
+        active && "text-primary"
         )}
         >
             <Icon size={26} />

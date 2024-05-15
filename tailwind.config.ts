@@ -9,8 +9,10 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        primary: '#ff0000', // Example primary color
+        primary: 'text-neutral-400', // Example primary color
         secondary: '#00ff00', // Example secondary color
+        third: '#00ffff', //Example Third color
+        fourth: '#ffffff', //neutral white 
       },
       spacing: {
         custom: '1rem', // Example custom spacing
