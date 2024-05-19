@@ -64,65 +64,11 @@ npm install @supabase/auth-helpers-nextjs @supabase/auth-helpers-react
 
 ### 4.3: Implementacija SupabaseProvider
 
-Sljedeći kod je dodan u `SupabaseProvider.tsx` kako bi se kreirao Supabase klijent i obezbijedio kontekst sesije.
-
-```Typescript
-"use client";
-
-import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
-import { SessionContextProvider } from "@supabase/auth-helpers-react";
-import { useState } from "react";
-import { Database } from "@/types_db";
-
-interface SupabaseProviderProps {
-  children: React.ReactNode;
-}
-
-const SupabaseProvider: React.FC<SupabaseProviderProps> = ({ children }) => {
-  const [supabaseClient] = useState(() => createClientComponentClient<Database>());
-
-  return (
-    <SessionContextProvider supabaseClient={supabaseClient}>
-      {children}
-    </SessionContextProvider>
-  );
-};
-
-export default SupabaseProvider;
-```
+[Sljedeći kod je dodan u `SupabaseProvider.tsx` kako bi se kreirao Supabase klijent i obezbijedio kontekst sesije.](https://github.com/SafetImamovic/MusicStreamingService/blob/4ac3ec20ea1d576d49a7e1b7a674a972ba0ab0f8/providers/SupabaseProvider.tsx)
 
 ### 4.4: Omotavanje glavnog layouta sa SupabaseProvider
 
-`layout.tsx` je izmijenjen kako bi uključio `SupabaseProvider`.
-
-```Typescript
-import type { Metadata } from "next";
-import { Figtree } from "next/font/google";
-import "./globals.css";
-import Sidebar from "@/components/Sidebar";
-import SupabaseProvider from "@/providers/SupabaseProvider";
-
-const inter = Figtree({ subsets: ["latin"] });
-
-export const metadata: Metadata = {
-  title: "Music Streaming Service",
-  description: "Listen to the BEST song!",
-};
-
-export default function RootLayout({ children }: { children: React.ReactNode }) {
-  return (
-    <html lang="en">
-      <body className={inter.className}>
-        <SupabaseProvider>
-          <Sidebar>
-            {children}
-          </Sidebar>
-        </SupabaseProvider>
-      </body>
-    </html>
-  );
-}
-```
+[`layout.tsx` je izmijenjen kako bi uključio `SupabaseProvider`.](https://github.com/SafetImamovic/MusicStreamingService/blob/4ac3ec20ea1d576d49a7e1b7a674a972ba0ab0f8/app/layout.tsx)
 
 ## Korak 5: Postavljanje User Context-a
 
@@ -137,216 +83,18 @@ touch hooks/useUser.tsx
 
 ### 5.2: Definisanje tipova korisnika
 
-Novi fajl `types.ts` je dodat u korijenu projekta kako bi se definisali TypeScript tipovi za detalje korisnika, proizvode, cijene i pretplate.
-
-```Typescript
-import Stripe from "stripe";
-
-export interface UserDetails {
-  id: string;
-  first_name: string;
-  last_name: string;
-  full_name?: string;
-  avatar_url?: string;
-  billing_address?: Stripe.Address;
-  payment_method?: Stripe.PaymentMethod[Stripe.PaymentMethod.Type];
-}
-
-export interface Product {
-  id: string;
-  active?: boolean;
-  name?: string;
-  description?: string;
-  image?: string;
-  metadata: Stripe.Metadata;
-}
-
-export interface Price {
-  id: string;
-  product_id?: string;
-  active?: boolean;
-  description?: string;
-  unit_amount?: number;
-  currency?: string;
-  type?: Stripe.Price.Type;
-  interval?: Stripe.Price.Recurring.Interval;
-  interval_count?: number;
-  trial_period_days?: number | null;
-  metadata?: Stripe.Metadata;
-  products?: Product;
-}
-
-export interface Subscription {
-  id: string;
-  user_id: string;
-  status?: Stripe.Subscription.Status;
-  metadata?: Stripe.Metadata;
-  price_id?: string;
-  quantity?: number;
-  cancel_at_period_end?: boolean;
-  created: string;
-  current_period_start: string;
-  current_period_end: string;
-  ended_at?: string;
-  cancel_at?: string;
-  canceled_at?: string;
-  trial_start?: string;
-  trial_end?: string;
-  prices?: Price;
-}
-```
+[Novi fajl `types.ts` je dodat u korijenu projekta kako bi se definisali TypeScript tipovi za detalje korisnika, proizvode, cijene i pretplate.](https://github.com/SafetImamovic/MusicStreamingService/blob/4ac3ec20ea1d576d49a7e1b7a674a972ba0ab0f8/types.ts)
 
 ### 5.3: Implementacija useUser hook-a
 
-Sljedeći kod je dodat u `useUser.tsx` kako bi se upravljalo korisničkim kontekstom i detaljima pretplate.
-
-```Typescript
-import { Subscription, UserDetails } from "@/types";
-import { User } from "@supabase/auth-helpers-nextjs";
-import { createContext, useContext, useEffect, useState } from "react";
-import { useSessionContext, useUser as useSupaUser } from "@supabase/auth-helpers-react";
-
-type UserContextType = {
-  accessToken: string | null;
-  user: User | null;
-  userDetails: UserDetails | null;
-  isLoading: boolean;
-  subscription: Subscription | null;
-};
-
-export const UserContext = createContext<UserContextType | undefined>(undefined);
-
-export interface Props {
-  [propName: string]: any;
-}
-
-export const MyUserContextProvider = (props: Props) => {
-  const { session, isLoading: isLoadingUser, supabaseClient: supabase } = useSessionContext();
-  const user = useSupaUser();
-  const accessToken = session?.access_token ?? null;
-  const [isLoadingData, setIsLoadingData] = useState(false);
-  const [userDetails, setUserDetails] = useState<UserDetails | null>(null);
-  const [subscription, setSubscription] = useState<Subscription | null>(null);
-
-  const getUserDetails = () => supabase.from('users').select('*').single();
-  const getSubscription = () =>
-    supabase.from("subscriptions")
-      .select('*, prices(*, products(*))')
-      .in('status', ['trialing', 'active'])
-      .single();
-
-  useEffect(() => {
-    if (user && !isLoadingData && !userDetails && !subscription) {
-      setIsLoadingData(true);
-
-      Promise.allSettled([getUserDetails(), getSubscription()]).then((results) => {
-        const userDetailsPromise = results[0];
-        const subscriptionPromise = results[1];
-
-        if (userDetailsPromise.status === "fulfilled") {
-          setUserDetails(userDetailsPromise.value.data as UserDetails);
-        }
-
-        if (subscriptionPromise.status === "fulfilled") {
-          setSubscription(subscriptionPromise.value.data as Subscription);
-        }
-
-        setIsLoadingData(false);
-      });
-    } else if (!user && !isLoadingUser && !isLoadingData) {
-      setUserDetails(null);
-      setSubscription(null);
-    }
-  }, [user, isLoadingUser]);
-
-  const value = {
-    accessToken,
-    user,
-    userDetails,
-    isLoading: isLoadingUser || isLoadingData,
-    subscription,
-  };
-
-  return <UserContext.Provider value={value} {...props} />;
-};
-
-export const useUser = () => {
-  const context = useContext(UserContext);
-  if (context === undefined) {
-
-
-    throw new Error('useUser must be used within a MyUserContextProvider');
-  }
-  return context;
-};
-```
+[Sljedeći kod je dodat u `useUser.tsx` kako bi se upravljalo korisničkim kontekstom i detaljima pretplate.](https://github.com/SafetImamovic/MusicStreamingService/blob/4ac3ec20ea1d576d49a7e1b7a674a972ba0ab0f8/hooks/useUser.tsx)
 
 ### 5.4: Kreiranje UserProvider-a
 
-Kreiran je fajl `UserProvider.tsx` u `providers` direktoriju i dodan sljedeći kod.
-
-```Typescript
-"use client";
-
-import { MyUserContextProvider } from "@/hooks/useUser";
-
-interface UserProviderProps {
-  children: React.ReactNode;
-}
-
-const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
-  return (
-    <MyUserContextProvider>
-      {children}
-    </MyUserContextProvider>
-  );
-};
-
-export default UserProvider;
-```
+[Kreiran je fajl `UserProvider.tsx` u `providers` direktoriju i dodan sljedeći kod.](https://github.com/SafetImamovic/MusicStreamingService/blob/4ac3ec20ea1d576d49a7e1b7a674a972ba0ab0f8/providers/UserProvider.tsx)
 
 ### 5.5: Omotavanje layouta sa UserProvider-om
 
-`layout.tsx` je izmijenjen kako bi uključio `UserProvider`.
-
-```Typescript
-import type { Metadata } from "next";
-import { Figtree } from "next/font/google";
-import "./globals.css";
-import Sidebar from "@/components/Sidebar";
-import SupabaseProvider from "@/providers/SupabaseProvider";
-import UserProvider from "@/providers/UserProvider";
-
-const inter = Figtree({ subsets: ["latin"] });
-
-export const metadata: Metadata = {
-  title: "Music Streaming Service",
-  description: "Listen to the BEST song!",
-};
-
-export default function RootLayout({ children }: { children: React.ReactNode }) {
-  return (
-    <html lang="en">
-      <body className={inter.className}>
-        <SupabaseProvider>
-          <UserProvider>
-            <Sidebar>
-              {children}
-            </Sidebar>
-          </UserProvider>
-        </SupabaseProvider>
-      </body>
-    </html>
-  );
-}
-```
-
-## Korak 6: Instalacija Stripe-a
-
-Instalirana je Stripe biblioteka za upravljanje podacima vezanim za Stripe.
-
-```Shell
-npm i stripe
-```
+[`layout.tsx` je izmijenjen kako bi uključio `UserProvider`.](https://github.com/SafetImamovic/MusicStreamingService/blob/4ac3ec20ea1d576d49a7e1b7a674a972ba0ab0f8/app/layout.tsx)
 
 ---
