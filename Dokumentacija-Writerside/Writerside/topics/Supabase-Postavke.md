@@ -38,7 +38,7 @@
 
 1. **Stripe Pretplate Šablon**
 
-// dodati šablon link
+Link za [Stripe Pretplate Šablon](https://github.com/SafetImamovic/MusicStreamingService/blob/b91003c2fdcc51e46b6174bc61f021b53e8f44a7/Dokumentacija-Writerside/dodatni-kod-primjeri/supabase-stripe-schema.sql)
 
 ![](../../images/1-Tables-Created.png)
 
