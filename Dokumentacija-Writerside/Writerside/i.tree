@@ -7,11 +7,13 @@
                  start-page="starter-topic.md">
 
     <toc-element topic="starter-topic.md"/>
+    <toc-element topic="Upute-I-Pravila-Za-Izradu-Projekta.md"/>
     <toc-element topic="Opis.md"/>
     <toc-element topic="Raspoređivanje-Zadataka.md"/>
     <toc-element topic="Baza-Podataka.md">
         <toc-element topic="Supabase-Postavke.md"/>
     </toc-element>
     <toc-element topic="Empty-MD-Topic.md"/>
+    <toc-element topic="Supabase-Modali-za-Autentifikaciju-Funkcionalnosti.md"/>
     <toc-element topic="Napomene.md"/>
 </instance-profile>
