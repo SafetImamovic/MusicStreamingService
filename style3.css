@@ -124,6 +124,7 @@ label {
 .text{
     font-weight: 300;
     opacity: 0.9;
+    font-size: 17px;
 }
 .contact-bg .text{
     margin: 1.6rem 0;
@@ -159,14 +160,14 @@ label {
 }
 .contact-form{
     padding: 2rem 0;
-    border-top: 1px solid #c7c7c7;
+    border-top: 1px solid #fff;
 }
 .contact-form form{
     padding-bottom: 1rem;
 }
 .form-control{
     width: 100%;
-    border: 1.5px solid #c7c7c7;
+    border: 1.5px solid #65235d;
     border-radius: 5px;
     padding: 0.7rem;
     margin: 0.6rem 0;
@@ -277,7 +278,7 @@ label {
 }
 
 p {
-    color: #dad0d0;
+    color: #fff;
 }
 
 @media screen and (min-width: 768px){
