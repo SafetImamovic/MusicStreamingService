@@ -1,0 +1,256 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Montserrat", sans-serif;
+}
+
+section {
+    position: relative;
+    width: 100%;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    background: url(bg.jpg) no-repeat;
+    background-size: cover;
+    background-position: center;
+}
+
+.about-us {
+    width: 100%;
+    min-height: calc(100vh - 60px); 
+    background-color: #0c0b0c;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 4rem;
+    padding: 0 10%; 
+}
+
+.main-img {
+    padding-top: 13%;
+    justify-content: center; 
+    align-items: center;
+}
+
+.main-img img {
+    max-width: 100%;
+    width: 560px;
+    height: auto;
+}
+
+.text {
+    padding: 6% 0;
+}
+
+.text h4 {
+    color: #ce1446;
+    font-size: 16px;
+    font-weight: 600;
+    text-transform: uppercase;
+    margin-bottom: 10px;
+}
+
+.text h1 {
+    color: #fff;
+    font-size: 36px;
+    text-transform: capitalize;
+    font-weight: 700;
+    line-height: 46px;
+    margin-bottom: 30px;
+}
+
+hr {
+    width: 30%;
+    border: none;
+    height: 2px;
+    background-color: #ce1446;
+    margin-bottom: 50px;
+}
+
+.text p {
+    max-width: 600px;
+    color: #fff;
+    font-size: 15px;
+    font-weight: 400;
+    line-height: 1.7;
+    margin-bottom: 60px;
+}
+
+.last-text {
+    display: flex;
+    justify-content: center; 
+    padding: 2rem 0; 
+}
+
+.text1, .text2 {
+    margin-right: 60px;
+    text-align: center; 
+}
+
+.last-text h3 {
+    color: #ce1446;
+    font-size: 60px;
+    font-weight: 700;
+}
+
+.last-text h5 {
+    color: #fff;
+    font-size: 18px;
+    font-weight: 500;
+    line-height: 18px;
+}
+
+header {
+    position: relative;
+    top: 0;
+    width: 100%;
+    padding: 30px 100px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+header .logo {
+    position: relative;
+    color: #fff;
+    font-size: 30px;
+    text-decoration: none;
+    text-transform: uppercase;
+    font-weight: 800;
+    letter-spacing: 1px;
+}
+
+header .navigation a {
+    color: #fff;
+    text-decoration: none;
+    font-weight: 500;
+    letter-spacing: 1px;
+    padding: 2px 15px;
+    border-radius: 20px;
+    transition: 0.3s;
+    transition-property: background;
+}
+
+header .navigation a:not(:last-child) {
+    margin-right: 30px;
+}
+
+header .navigation a:hover {
+    background: #fff;
+}
+
+label {
+    display: none;
+}
+
+#check {
+    z-index: 3;
+    display: none;
+}
+
+/* Responsive styles */
+
+@media (max-width: 960px) {
+    header .navigation {
+        display: none;
+    }
+    label {
+        display: block;
+        font-size: 25px;
+        cursor: pointer;
+        transition: 0.3s;
+        transition-property: color;
+    }
+
+    label:hover {
+        color: #fff;
+    }
+
+    label .close-btn {
+        display: none;
+    }
+
+    #check:checked ~ header .navigation {
+        z-index: 2;
+        position: fixed;
+        background: rgb(118, 103, 174);
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+
+    #check:checked ~ header .navigation a {
+        font-weight: 700;
+        margin-right: 0;
+        margin-bottom: 50px;
+        letter-spacing: 2px;
+    }
+
+    #check:checked ~ header label .menu-btn {
+        display: none;
+    }
+
+    #check:checked ~ header label .close-btn {
+        z-index: 2;
+        display: block;
+        position: fixed;
+    }
+
+    label .menu-btn {
+        position: absolute;
+    }
+
+    header .logo {
+        position: absolute;
+        bottom: -6px;
+    }
+}
+
+p {
+    color: #dad0d0;
+}
+
+@media (max-width: 1385px) {
+    .about-us {
+        padding: 4% 4%;
+        transition: .3s;
+    }
+    .main-img img {
+        width: 500px;
+        height: auto;
+        transition: .3s;
+    }
+}
+
+@media (max-width: 1240px) {
+    .text h1 {
+        font-size: 30px;
+        transition: .3s;
+    }
+}
+
+@media (max-width: 1040px) {
+    .about-us {
+        grid-template-columns: 1fr;
+        height: 100%;
+    }
+    .main-img img {
+        padding-top: 40px;
+    }
+    .last-text {
+        flex-direction: column; 
+        text-align: center;
+    }
+    .text1, .text2 {
+        margin-right: 0;
+        margin-bottom: 20px;
+    }
+}
