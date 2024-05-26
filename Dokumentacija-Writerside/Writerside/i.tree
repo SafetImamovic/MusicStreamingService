@@ -15,5 +15,7 @@
     </toc-element>
     <toc-element topic="Empty-MD-Topic.md"/>
     <toc-element topic="Supabase-Modali-za-Autentifikaciju-Funkcionalnosti.md"/>
+    <toc-element topic="Eksterna-HTML-Stranica-za-Kontakt-Slanje-na-Bazu.md"/>
+    <toc-element topic="Inicijalni-Layout-Setup.md"/>
     <toc-element topic="Napomene.md"/>
 </instance-profile>
