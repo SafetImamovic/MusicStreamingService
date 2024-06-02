@@ -6,6 +6,7 @@ import SupabaseProvider from "@/providers/SupabaseProvider";
 import UserProvider from "@/providers/UserProvider";
 import ModalProvider from "@/providers/ModalProvider";
 import ToasterProvider from "@/providers/ToasterProvider";
+import getSongsByUserid from "@/actions/getSongsByUserid"
 
 const inter = Figtree({ subsets: ["latin"] });
 
@@ -14,11 +15,15 @@ export const metadata: Metadata = {
   description: "Listen to the BEST song!",
 };
 
-export default function RootLayout({
+export const revaluate = 0;
+
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const userSongs = await getSongsByUserid();
+
   return (
     <html lang="en">
       <body className={inter.className}>
@@ -26,7 +31,7 @@ export default function RootLayout({
         <SupabaseProvider>
           <UserProvider>
             <ModalProvider />
-            <Sidebar>
+            <Sidebar songs={userSongs}>
               {children}
             </Sidebar>
           </UserProvider>
