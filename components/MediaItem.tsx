@@ -27,7 +27,7 @@ const handleClick = () => {
         <div
         onClick={handleClick}
         className="
-        felx
+        flex
         items-centre
         gap-x-3
         cursor-pointer
@@ -51,6 +51,7 @@ const handleClick = () => {
                     src={imageUrl || '/images/liked.png'}
                     alt="Media Item"
                     className="object-cover"
+                    
 />
 
             </div>
