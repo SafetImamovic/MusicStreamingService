@@ -5,21 +5,39 @@ import {AiOutlinePlus} from "react-icons/ai";
 import useAuthModal from "@/hooks/useAuthModal";
 import { useUser } from "@/hooks/useUser";
 import useUploadModal from "@/hooks/useUploadModal";
+import { useSupabaseClient } from "@supabase/auth-helpers-react";
+import toast from "react-hot-toast";
+
 
 const Library = () => {
     const authModal = useAuthModal();
     const uploadModal = useUploadModal();
     const { user } = useUser();
+    const supabase = useSupabaseClient();
 
-    const onClick = () => {
+    const onClick = async () => {
         if (!user)
         {
             return authModal.onOpen();
         }
 
-        //todo check for subscription
+        const { data, error } = await supabase.from('users').select('admin').eq('id', user.id)
 
-        return uploadModal.onOpen();
+        if (error)
+        {
+            return toast.error("Sorry, you're not an Admin.")
+        }
+
+        if (data[0].admin)
+        {
+            return uploadModal.onOpen();
+        }
+        else
+        {
+            // Handle non-admin case (optional)
+            toast.error("You are not authorized to upload.");
+        }
+
     };
     return ( 
         <div className="flex flex-col">
