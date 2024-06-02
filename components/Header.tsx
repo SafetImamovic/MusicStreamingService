@@ -26,7 +26,9 @@ const Header: React.FC<HeaderProps> = ({
     const router = useRouter();
 
     const supebaseClient = useSupabaseClient();
-    const { user } = useUser();
+    const { user, userDetails } = useUser();
+    
+    const admin = userDetails?.admin;
 
     const handleLogout = async () =>
     {
@@ -139,6 +141,17 @@ const Header: React.FC<HeaderProps> = ({
                                 items-center
                             "
                         >
+                            {admin ? (
+                                <div
+                                    className="font-bold text-2xl"
+                                >
+                                    ADMIN
+                                </div>
+                            ) : (
+                            <div></div>
+                            )}
+                            
+
                             <Button
                                 onClick={handleLogout}
                                 className="
