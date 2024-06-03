@@ -13,7 +13,7 @@
 
 2. **Lozinka projekta**
    - Generisana je lozinka za projekat i kopirana je u `password.txt` u korijenu projekta.
-   - Dodano je `password.txt` u `.gitignore` kako bi se osiguralo da se ne pošalje u repozitorij.
+   - > Dodano je `password.txt` u `.gitignore` kako bi se osiguralo da se ne pošalje u repozitorij.
 
 ## API Ključevi
 

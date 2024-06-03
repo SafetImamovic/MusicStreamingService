@@ -143,9 +143,9 @@ const Header: React.FC<HeaderProps> = ({
                         >
                             {admin ? (
                                 <div
-                                    className="font-bold text-2xl"
+                                    className="font-bold text-xl"
                                 >
-                                    ADMIN
+                                    ADMINISTRATOR
                                 </div>
                             ) : (
                             <div></div>

@@ -1,6 +1,6 @@
-# Upute i Pravila za Izradu Projekta
+# Pregled Uputa i Pravila za Izradu Projekta
 
-**Rok za predaju: 31.05.2024. do 23:59**
+<warning>Rok za predaju: 03.05.2024. do 06:00</warning>
 
 - Projekti se rade u grupama od po isključivo 3 člana.
 - Mogu se miješati studenti iz više grupa.
@@ -35,9 +35,12 @@ Napraviti dinamičku web stranicu gdje ćete obavezno koristiti neki razvojni ok
 - Kvalitet koda i prisutnost svih obaveznih elemenata navedenih gore: 15 bodova.
 - Kreativnost: 5 bodova.
 
-**NAPOMENA:** Teme se moraju razlikovati. Grupa koja prva predloži neku temu, tema je njihova.
+<warning>NAPOMENA: Teme se moraju razlikovati. Grupa koja prva predloži neku temu, tema je njihova.</warning>
 
-Projekat (sve fajlove i eventualno skripte za bazu i dokumentaciju) spakovati u .zip ili .rar i postaviti na zadatak na Classroom. Projekat imenovati na sljedeći način prema rednom broju vaše grupe sa liste grupa:
-`redniBrojGrupe_brIndeksaPredstavnika.zip` ili `redniBrojGrupe_brIndeksaPredstavnika.rar`
+
+>Projekat (sve fajlove i eventualno skripte za bazu i dokumentaciju) spakovati u .zip ili .rar i postaviti na zadatak na Classroom. Projekat imenovati na sljedeći način prema rednom broju vaše grupe sa liste grupa:
+>`redniBrojGrupe_brIndeksaPredstavnika.zip` ili `redniBrojGrupe_brIndeksaPredstavnika.rar`
+> 
+> Naše: `14_MusicStreamingService_332.rar`
 
 ---
